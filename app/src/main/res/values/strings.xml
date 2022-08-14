@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Juego de la Pelota</string>
+    <string name="dificultad">Elija el level inicial:</string>
+    <string name="facil">Facil</string>
+    <string name="medio">Normal</string>
+    <string name="dificil">Dificil</string>
+</resources>
