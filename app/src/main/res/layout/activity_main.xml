@@ -9,9 +9,9 @@
 
     <TextView
         android:id="@+id/texto_botones"
-        android:layout_alignParentTop="true"
+        style="@style/texto_botones"
         android:layout_alignLeft="@+id/facil"
-        style="@style/texto_botones"/>
+        android:layout_alignParentTop="true" />
 
     <Button
         android:id="@+id/facil"
@@ -33,6 +33,13 @@
         android:layout_below="@+id/texto_botones"
         android:text="@string/dificil"
         style="@style/boton_Dificultad"/>
+
+    <Button
+        android:id="@+id/ayuda"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        style="@style/boton_ayuda"
+        ></Button>
 
 
 </RelativeLayout>
