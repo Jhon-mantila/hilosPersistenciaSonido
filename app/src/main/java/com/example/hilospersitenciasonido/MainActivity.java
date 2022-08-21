@@ -3,12 +3,18 @@ package com.example.hilospersitenciasonido;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+    int record;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +60,57 @@ public class MainActivity extends AppCompatActivity {
 
         int resultado = puntuacion.getIntExtra("PUNTUACION", 0);
 
-        TextView caja = (TextView) findViewById(R.id.record);
+        if(resultado > record){
 
-        caja.setText("Record: " + resultado);
+            record = resultado;
+
+            TextView caja = (TextView) findViewById(R.id.record);
+
+            caja.setText("Record: " + record);
+
+            guardaRecord();
+
+        }else{
+
+            String puntación_partida = "Toques: " + resultado;
+
+            Toast mitoast = Toast.makeText(this, puntación_partida, Toast.LENGTH_SHORT);
+
+            mitoast.setGravity(Gravity.CENTER, 0,0);
+
+            mitoast.show();
+        }
+
 
     }
 
+    public void onResume() {
 
+        super.onResume();
+
+        leeRecord();
+    }
+
+    private void guardaRecord(){
+
+        SharedPreferences datos = PreferenceManager.getDefaultSharedPreferences(this);
+
+        SharedPreferences.Editor mieditor = datos.edit();
+
+        mieditor.putInt("RECORD", record);
+
+        mieditor.apply();
+    }
+
+    public void leeRecord(){
+
+        SharedPreferences datos = PreferenceManager.getDefaultSharedPreferences(this);
+
+        record = datos.getInt("RECORD", 0);
+
+        TextView caja = (TextView) findViewById(R.id.record);
+
+        caja.setText("Record:" + record);
+
+    }
 }
