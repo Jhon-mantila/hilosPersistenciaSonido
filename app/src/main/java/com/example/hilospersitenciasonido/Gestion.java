@@ -2,6 +2,7 @@ package com.example.hilospersitenciasonido;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -17,6 +18,10 @@ public class Gestion extends Activity {
     private int botes;
 
     private Handler temporizador;
+
+    MediaPlayer golpeo;
+
+    MediaPlayer fin;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -34,6 +39,10 @@ public class Gestion extends Activity {
         temporizador = new Handler();
 
         temporizador.postDelayed(elhilo, 2000);
+
+        golpeo = MediaPlayer.create(this, R.raw.golpe);
+
+        fin = MediaPlayer.create(this, R.raw.fin);
     }
 
     private Runnable elhilo = new Runnable() {
@@ -61,6 +70,8 @@ public class Gestion extends Activity {
         int y = (int) evento.getY();
 
         //System.out.println("X: " + x +" Y: " + y);
+        //inicio el sonido
+        golpeo.start();
 
         //paso el punto concreto con el usuario ha tocado la pantalla y la cantidad de toques
         if(partida.toque(x, y)) botes++;
@@ -72,9 +83,11 @@ public class Gestion extends Activity {
 
         temporizador.removeCallbacks(elhilo); // para matar el hilo
 
+        fin.start();
+
         Intent in = new Intent();
 
-        in.putExtra("PUNTUACION", botes);
+        in.putExtra("PUNTUACION", botes*dificultad);
 
         setResult(RESULT_OK,in);
 
