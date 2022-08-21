@@ -1,6 +1,7 @@
 package com.example.hilospersitenciasonido;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -13,10 +14,14 @@ public class Gestion extends Activity {
 
     private int fps = 30;
 
+    private int botes;
+
     private Handler temporizador;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
+        botes = 0;
 
         Bundle extras = getIntent().getExtras();
 
@@ -55,10 +60,10 @@ public class Gestion extends Activity {
 
         int y = (int) evento.getY();
 
-        System.out.println("X: " + x +" Y: " + y);
+        //System.out.println("X: " + x +" Y: " + y);
 
-        //paso el punto concreto con el usuario ha tocado la pantalla
-        partida.toque(x, y);
+        //paso el punto concreto con el usuario ha tocado la pantalla y la cantidad de toques
+        if(partida.toque(x, y)) botes++;
 
         return false;
     }
@@ -66,6 +71,12 @@ public class Gestion extends Activity {
     public void fin(){
 
         temporizador.removeCallbacks(elhilo); // para matar el hilo
+
+        Intent in = new Intent();
+
+        in.putExtra("PUNTUACION", botes);
+
+        setResult(RESULT_OK,in);
 
         finish();//destruye la actividad actual
     }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +40,25 @@ public class MainActivity extends AppCompatActivity {
 
         in.putExtra("DIFICULTAD", dificultad);
 
-        startActivity(in);
+        //startActivity(in);
+
+        startActivityForResult(in, 1);
 
     }
+
+    protected void onActivityResult(int peticion, int codigo, Intent puntuacion) {
+
+        super.onActivityResult(peticion, codigo, puntuacion);
+
+        if(peticion != 1 || codigo != RESULT_OK) return;
+
+        int resultado = puntuacion.getIntExtra("PUNTUACION", 0);
+
+        TextView caja = (TextView) findViewById(R.id.record);
+
+        caja.setText("Record: " + resultado);
+
+    }
+
+
 }
